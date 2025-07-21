@@ -203,14 +203,59 @@ const Creation = () => {
             </div>
             
             <div className="flex-1 bg-gradient-to-br from-gray-100 to-gray-200 m-6 rounded-xl flex items-center justify-center relative overflow-hidden">
-              {/* Modelo 3D Simulado */}
-              <div 
-                className="w-64 h-80 rounded-lg shadow-lg transition-all duration-300 transform hover:scale-105"
-                style={{ backgroundColor: baseColor }}
-              >
-                <div className="w-full h-full flex items-center justify-center text-gray-600 font-medium">
-                  Modelo 3D
-                  <br />
+              {/* Modelo 3D de Camiseta */}
+              <div className="relative">
+                <svg width="200" height="280" viewBox="0 0 200 280" className="drop-shadow-lg">
+                  {/* Corpo da camiseta */}
+                  <path
+                    d="M40 80 L40 50 Q40 40 50 40 L70 40 Q80 35 120 35 Q160 35 170 40 L190 40 Q200 40 200 50 L200 80 L180 90 L180 250 Q180 260 170 260 L50 260 Q40 260 40 250 L40 90 Z"
+                    fill={baseColor}
+                    stroke="#333"
+                    strokeWidth="2"
+                    className="transition-all duration-300"
+                  />
+                  
+                  {/* Mangas */}
+                  <ellipse
+                    cx="25"
+                    cy="75"
+                    rx="25"
+                    ry="35"
+                    fill={baseColor}
+                    stroke="#333"
+                    strokeWidth="2"
+                    className="transition-all duration-300"
+                  />
+                  <ellipse
+                    cx="215"
+                    cy="75"
+                    rx="25"
+                    ry="35"
+                    fill={baseColor}
+                    stroke="#333"
+                    strokeWidth="2"
+                    className="transition-all duration-300"
+                  />
+                  
+                  {/* Gola */}
+                  <path
+                    d="M70 40 Q120 25 170 40 Q165 50 155 55 Q120 45 85 55 Q75 50 70 40"
+                    fill="white"
+                    stroke="#333"
+                    strokeWidth="2"
+                  />
+                  
+                  {/* Detalhes de sombreamento */}
+                  <path
+                    d="M45 85 L45 250 Q45 255 50 255 L170 255 Q175 255 175 250 L175 85"
+                    fill="none"
+                    stroke="rgba(0,0,0,0.1)"
+                    strokeWidth="1"
+                  />
+                </svg>
+                
+                {/* Label do tipo */}
+                <div className="absolute bottom-4 left-1/2 transform -translate-x-1/2 bg-white px-3 py-1 rounded-full shadow-md text-sm font-medium text-gray-700">
                   {type} - {subtype}
                 </div>
               </div>
