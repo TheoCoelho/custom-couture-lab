@@ -3,12 +3,9 @@ import { useState } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
 import Header from "@/components/Header";
 import TShirt3D from "@/components/TShirt3D";
+import ExpandableSidebar from "@/components/ExpandableSidebar";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Image, FileImage, Plus, X } from "lucide-react";
+import { Plus, X } from "lucide-react";
 
 const Creation = () => {
   const [searchParams] = useSearchParams();
@@ -72,148 +69,17 @@ const Creation = () => {
       <Header />
       
       <main className="pt-20 flex">
-        {/* Ferramentas Laterais */}
-        <aside className="w-80 bg-white shadow-lg p-6 overflow-y-auto">
-          <h2 className="text-2xl font-bold text-gray-800 mb-6">Ferramentas</h2>
-          
-          <Tabs value={selectedTool} onValueChange={setSelectedTool} className="w-full">
-            <TabsList className="grid w-full grid-cols-3">
-              <TabsTrigger value="upload">Upload</TabsTrigger>
-              <TabsTrigger value="text">Texto</TabsTrigger>
-              <TabsTrigger value="brush">Pincel</TabsTrigger>
-            </TabsList>
-            
-            <TabsContent value="upload" className="space-y-4">
-              <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-purple-400 transition-colors cursor-pointer">
-                <FileImage className="w-12 h-12 text-gray-400 mx-auto mb-2" />
-                <p className="text-sm text-gray-600">Clique para fazer upload</p>
-              </div>
-              
-              <div className="grid grid-cols-3 gap-2">
-                {[1, 2, 3, 4, 5, 6].map((i) => (
-                  <div key={i} className="aspect-square bg-gray-200 rounded cursor-pointer hover:bg-gray-300 transition-colors flex items-center justify-center">
-                    <Image className="w-6 h-6 text-gray-500" />
-                  </div>
-                ))}
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="text" className="space-y-4">
-              <div>
-                <Label htmlFor="text-input">Texto</Label>
-                <Textarea id="text-input" placeholder="Digite seu texto aqui" />
-              </div>
-              
-              <div>
-                <Label htmlFor="font-size">Tamanho da Fonte</Label>
-                <Input type="range" min="12" max="72" defaultValue="24" />
-              </div>
-              
-              <div>
-                <Label>Cor do Texto</Label>
-                <div className="grid grid-cols-5 gap-2 mt-2">
-                  {colors.map((color) => (
-                    <button
-                      key={color}
-                      className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-gray-500 transition-colors"
-                      style={{ backgroundColor: color }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </TabsContent>
-            
-            <TabsContent value="brush" className="space-y-4">
-              <div>
-                <Label>Tipo de Pincel</Label>
-                <div className="grid grid-cols-2 gap-2 mt-2">
-                  <Button variant="outline" size="sm">Normal</Button>
-                  <Button variant="outline" size="sm">Spray</Button>
-                  <Button variant="outline" size="sm">Marca-texto</Button>
-                  <Button variant="outline" size="sm">Lápis</Button>
-                </div>
-              </div>
-              
-              <div>
-                <Label htmlFor="brush-size">Tamanho do Pincel</Label>
-                <Input type="range" min="1" max="20" defaultValue="5" />
-              </div>
-              
-              <div>
-                <Label>Cores</Label>
-                <div className="grid grid-cols-5 gap-2 mt-2">
-                  {colors.map((color) => (
-                    <button
-                      key={color}
-                      className="w-8 h-8 rounded-full border-2 border-gray-300 hover:border-gray-500 transition-colors"
-                      style={{ backgroundColor: color }}
-                    />
-                  ))}
-                </div>
-              </div>
-            </TabsContent>
-          </Tabs>
-
-          {/* Configurações do Projeto */}
-          <div className="mt-8 space-y-4 border-t pt-6">
-            <h3 className="text-lg font-semibold text-gray-800">Configurações</h3>
-            
-            <div>
-              <Label htmlFor="project-name">Nome do Projeto</Label>
-              <Input 
-                id="project-name"
-                value={projectName}
-                onChange={(e) => setProjectName(e.target.value)}
-                placeholder="Minha criação"
-              />
-            </div>
-            
-            <div>
-              <Label htmlFor="base-color">Cor Base</Label>
-              <div className="flex items-center gap-2">
-                <Input
-                  type="color"
-                  id="base-color"
-                  value={baseColor}
-                  onChange={(e) => setBaseColor(e.target.value)}
-                  className="w-12 h-10 p-1"
-                />
-                <Input value={baseColor} readOnly className="flex-1" />
-              </div>
-            </div>
-            
-            <div>
-              <Label htmlFor="size">Tamanho</Label>
-              <select
-                id="size"
-                value={size}
-                onChange={(e) => setSize(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md"
-              >
-                <option value="PP">PP</option>
-                <option value="P">P</option>
-                <option value="M">M</option>
-                <option value="G">G</option>
-                <option value="GG">GG</option>
-              </select>
-            </div>
-            
-            <div>
-              <Label htmlFor="fabric">Tipo de Tecido</Label>
-              <select
-                id="fabric"
-                value={fabric}
-                onChange={(e) => setFabric(e.target.value)}
-                className="w-full p-2 border border-gray-300 rounded-md"
-              >
-                <option value="algodao">100% Algodão</option>
-                <option value="poliester">Poliéster</option>
-                <option value="misto">Misto</option>
-                <option value="linho">Linho</option>
-              </select>
-            </div>
-          </div>
-        </aside>
+        {/* Sidebar Expansivo */}
+        <ExpandableSidebar
+          projectName={projectName}
+          setProjectName={setProjectName}
+          baseColor={baseColor}
+          setBaseColor={setBaseColor}
+          size={size}
+          setSize={setSize}
+          fabric={fabric}
+          setFabric={setFabric}
+        />
 
         {/* Área de Edição 3D */}
         <div className="flex-1 p-6">
