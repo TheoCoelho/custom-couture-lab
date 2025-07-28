@@ -213,12 +213,12 @@ const ExpandableSidebar = ({
 
   return (
     <aside 
-      className={`bg-white shadow-lg overflow-hidden transition-all duration-300 ${
+      className={`bg-white shadow-lg overflow-hidden transition-all duration-300 flex h-[calc(100vh-5rem)] ${
         isExpanded ? 'w-80' : 'w-16'
       }`}
     >
-      {/* Ícones da barra lateral */}
-      <div className="flex flex-col">
+      {/* Coluna dos Ícones - Sempre fixa à esquerda */}
+      <div className="w-16 flex flex-col bg-gray-50 border-r border-gray-200">
         {sidebarSections.map((section) => {
           const IconComponent = section.icon;
           const isActive = activeSection === section.id;
@@ -227,7 +227,7 @@ const ExpandableSidebar = ({
             <button
               key={section.id}
               onClick={() => handleSectionClick(section.id)}
-              className={`w-16 h-16 flex items-center justify-center border-b border-gray-200 transition-colors hover:bg-gray-50 ${
+              className={`w-16 h-16 flex items-center justify-center border-b border-gray-200 transition-colors hover:bg-gray-100 ${
                 isActive && isExpanded ? 'bg-purple-50 border-r-2 border-r-purple-500' : ''
               }`}
               title={section.label}
@@ -242,10 +242,12 @@ const ExpandableSidebar = ({
         })}
       </div>
 
-      {/* Conteúdo expandido */}
+      {/* Conteúdo expandido - À direita dos botões */}
       {isExpanded && activeSection && (
-        <div className="p-6 overflow-y-auto max-h-[calc(100vh-200px)] animate-fade-in">
-          {sidebarSections.find(section => section.id === activeSection)?.content}
+        <div className="w-64 h-full overflow-y-auto animate-fade-in">
+          <div className="p-6">
+            {sidebarSections.find(section => section.id === activeSection)?.content}
+          </div>
         </div>
       )}
     </aside>

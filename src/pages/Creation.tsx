@@ -69,7 +69,7 @@ const Creation = () => {
     <div className="min-h-screen bg-gray-50">
       <Header />
       
-      <main className="pt-20 flex">
+      <main className="pt-20 flex min-h-screen">
         {/* Sidebar Expansivo */}
         <ExpandableSidebar
           projectName={projectName}
