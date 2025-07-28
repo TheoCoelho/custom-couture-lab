@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-import { Image, FileImage } from "lucide-react";
+import { Image, FileImage, Plus, X } from "lucide-react";
 
 const Creation = () => {
   const [searchParams] = useSearchParams();
@@ -23,11 +23,33 @@ const Creation = () => {
   const [size, setSize] = useState('M');
   const [fabric, setFabric] = useState('algodao');
   const [selectedTool, setSelectedTool] = useState('upload');
+  const [canvasTabs, setCanvasTabs] = useState([{ id: '3d', name: '3D', type: '3d' }]);
+  const [activeCanvasTab, setActiveCanvasTab] = useState('3d');
 
   const colors = [
     '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57',
     '#ff9ff3', '#54a0ff', '#5f27cd', '#00d2d3', '#ff9f43'
   ];
+
+  const addNewCanvasTab = () => {
+    const newTabId = `2d-${Date.now()}`;
+    const newTab = {
+      id: newTabId,
+      name: `2D - ${canvasTabs.length}`,
+      type: '2d'
+    };
+    setCanvasTabs([...canvasTabs, newTab]);
+    setActiveCanvasTab(newTabId);
+  };
+
+  const removeCanvasTab = (tabId: string) => {
+    if (tabId === '3d') return; // Não permitir remover a tab 3D
+    const updatedTabs = canvasTabs.filter(tab => tab.id !== tabId);
+    setCanvasTabs(updatedTabs);
+    if (activeCanvasTab === tabId) {
+      setActiveCanvasTab(updatedTabs[0]?.id || '3d');
+    }
+  };
 
   const handleFinalize = () => {
     const projectData = {
@@ -203,26 +225,93 @@ const Creation = () => {
               <p className="text-gray-600">Personalize sua peça como desejar</p>
             </div>
             
+            {/* Gerenciador de Tabs Canvas */}
+            <div className="px-6 pt-4">
+              <div className="flex items-center gap-2">
+                <div className="flex-1 flex items-center gap-1 bg-gray-100 p-1 rounded-lg overflow-x-auto">
+                  {canvasTabs.map((tab) => (
+                    <div
+                      key={tab.id}
+                      className={`flex items-center gap-2 px-3 py-2 rounded-md cursor-pointer transition-colors ${
+                        activeCanvasTab === tab.id
+                          ? 'bg-white text-gray-900 shadow-sm'
+                          : 'text-gray-600 hover:text-gray-900 hover:bg-gray-200'
+                      }`}
+                      onClick={() => setActiveCanvasTab(tab.id)}
+                    >
+                      <span className="text-sm font-medium whitespace-nowrap">{tab.name}</span>
+                      {tab.id !== '3d' && (
+                        <button
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            removeCanvasTab(tab.id);
+                          }}
+                          className="ml-1 text-gray-400 hover:text-gray-600"
+                        >
+                          <X className="w-3 h-3" />
+                        </button>
+                      )}
+                    </div>
+                  ))}
+                </div>
+                <Button
+                  size="sm"
+                  variant="outline"
+                  onClick={addNewCanvasTab}
+                  className="flex items-center gap-1 shrink-0"
+                >
+                  <Plus className="w-4 h-4" />
+                  <span className="hidden sm:inline">Nova Tab 2D</span>
+                </Button>
+              </div>
+            </div>
+
+            {/* Área de Canvas */}
             <div className="flex-1 bg-gradient-to-br from-gray-100 to-gray-200 m-6 rounded-xl flex items-center justify-center relative overflow-hidden">
-              {/* Modelo 3D Real da Camiseta */}
-              <div className="w-full h-full min-h-[500px]">
-                <TShirt3D color={baseColor} />
-              </div>
-              
-              {/* Label do tipo */}
-              <div className="absolute bottom-4 left-4 bg-white px-3 py-2 rounded-lg shadow-md">
-                <div className="text-sm font-medium text-gray-700">
-                  {type} - {subtype}
-                </div>
-                <div className="text-xs text-gray-500">
-                  Clique e arraste para rotacionar • Scroll para zoom
-                </div>
-              </div>
-              
-              {/* Controles de Visualização */}
-              <div className="absolute bottom-4 right-4 flex gap-2">
-                <Button size="sm" variant="outline" className="bg-white">Reset</Button>
-              </div>
+              {activeCanvasTab === '3d' ? (
+                <>
+                  {/* Modelo 3D Real da Camiseta */}
+                  <div className="w-full h-full min-h-[500px]">
+                    <TShirt3D color={baseColor} />
+                  </div>
+                  
+                  {/* Label do tipo */}
+                  <div className="absolute bottom-4 left-4 bg-white px-3 py-2 rounded-lg shadow-md">
+                    <div className="text-sm font-medium text-gray-700">
+                      {type} - {subtype}
+                    </div>
+                    <div className="text-xs text-gray-500">
+                      Clique e arraste para rotacionar • Scroll para zoom
+                    </div>
+                  </div>
+                  
+                  {/* Controles de Visualização */}
+                  <div className="absolute bottom-4 right-4 flex gap-2">
+                    <Button size="sm" variant="outline" className="bg-white">Reset</Button>
+                  </div>
+                </>
+              ) : (
+                <>
+                  {/* Canvas 2D */}
+                  <div className="w-full h-full min-h-[500px] bg-white rounded-lg border-2 border-dashed border-gray-300 flex items-center justify-center">
+                    <div className="text-center text-gray-500">
+                      <div className="text-2xl font-bold mb-2">Canvas 2D</div>
+                      <div className="text-sm">
+                        {canvasTabs.find(tab => tab.id === activeCanvasTab)?.name}
+                      </div>
+                      <div className="text-xs mt-2">
+                        Área para desenho e edição 2D
+                      </div>
+                    </div>
+                  </div>
+                  
+                  {/* Controles Canvas 2D */}
+                  <div className="absolute bottom-4 right-4 flex gap-2">
+                    <Button size="sm" variant="outline" className="bg-white">Limpar</Button>
+                    <Button size="sm" variant="outline" className="bg-white">Exportar</Button>
+                  </div>
+                </>
+              )}
             </div>
             
             <div className="p-6 border-t flex justify-between items-center">
