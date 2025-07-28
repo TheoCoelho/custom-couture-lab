@@ -22,6 +22,7 @@ const Creation = () => {
   const [selectedTool, setSelectedTool] = useState('upload');
   const [canvasTabs, setCanvasTabs] = useState([{ id: '3d', name: '3D', type: '3d' }]);
   const [activeCanvasTab, setActiveCanvasTab] = useState('3d');
+  const [isSidebarExpanded, setIsSidebarExpanded] = useState(false);
 
   const colors = [
     '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57',
@@ -79,10 +80,11 @@ const Creation = () => {
           setSize={setSize}
           fabric={fabric}
           setFabric={setFabric}
+          onExpandChange={setIsSidebarExpanded}
         />
 
         {/* Área de Edição 3D */}
-        <div className="flex-1 p-6">
+        <div className={`flex-1 p-6 transition-all duration-300 ${isSidebarExpanded ? 'ml-0' : 'ml-0'}`}>
           <div className="bg-white rounded-2xl shadow-lg h-full min-h-[600px] flex flex-col">
             <div className="p-6 border-b">
               <h2 className="text-2xl font-bold text-gray-800">

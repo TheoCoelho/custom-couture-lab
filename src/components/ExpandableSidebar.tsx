@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -14,6 +14,7 @@ interface ExpandableSidebarProps {
   setSize: (value: string) => void;
   fabric: string;
   setFabric: (value: string) => void;
+  onExpandChange?: (isExpanded: boolean) => void;
 }
 
 const ExpandableSidebar = ({
@@ -25,9 +26,10 @@ const ExpandableSidebar = ({
   setSize,
   fabric,
   setFabric,
+  onExpandChange,
 }: ExpandableSidebarProps) => {
   const [isExpanded, setIsExpanded] = useState(false);
-  const [activeSection, setActiveSection] = useState<string | null>(null);
+  const [activeSection, setActiveSection] = useState<string>('settings');
 
   const colors = [
     '#ff6b6b', '#4ecdc4', '#45b7d1', '#96ceb4', '#feca57',
@@ -199,12 +201,15 @@ const ExpandableSidebar = ({
   const handleSectionClick = (sectionId: string) => {
     if (activeSection === sectionId && isExpanded) {
       setIsExpanded(false);
-      setActiveSection(null);
     } else {
       setActiveSection(sectionId);
       setIsExpanded(true);
     }
   };
+
+  useEffect(() => {
+    onExpandChange?.(isExpanded);
+  }, [isExpanded, onExpandChange]);
 
   return (
     <aside 
