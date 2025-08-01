@@ -218,16 +218,15 @@ const ExpandableSidebar = ({
       }`}
     >
       {/* Coluna dos Ícones - Sempre fixa à esquerda */}
-      <div className="w-16 flex flex-col bg-gray-50 border-r border-gray-200">
+      <div className="w-16 flex flex-col bg-gray-50 border-r border-gray-200 h-full py-4 gap-4 justify-evenly">
         {sidebarSections.map((section) => {
           const IconComponent = section.icon;
           const isActive = activeSection === section.id;
-          
           return (
             <button
               key={section.id}
               onClick={() => handleSectionClick(section.id)}
-              className={`w-16 h-16 flex items-center justify-center border-b border-gray-200 transition-colors hover:bg-gray-100 ${
+              className={`w-16 h-16 flex items-center justify-center transition-colors hover:bg-gray-100 ${
                 isActive && isExpanded ? 'bg-purple-50 border-r-2 border-r-purple-500' : ''
               }`}
               title={section.label}

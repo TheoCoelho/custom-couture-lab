@@ -84,7 +84,11 @@ const Creation = () => {
         />
 
         {/* Área de Edição 3D */}
-        <div className={`flex-1 p-6 transition-all duration-300 ${isSidebarExpanded ? 'ml-0' : 'ml-0'}`}>
+        <div
+          className={`transition-all duration-300 p-6 flex-1
+            ${isSidebarExpanded ? 'max-w-[calc(100%-20rem)] ml-0' : 'max-w-full ml-0'}
+          `}
+        >
           <div className="bg-white rounded-2xl shadow-lg h-full min-h-[600px] flex flex-col">
             <div className="p-6 border-b">
               <h2 className="text-2xl font-bold text-gray-800">
@@ -135,7 +139,7 @@ const Creation = () => {
             </div>
 
             {/* Área de Canvas */}
-            <div className="flex-1 bg-gradient-to-br from-gray-100 to-gray-200 m-6 rounded-xl flex items-center justify-center relative overflow-hidden">
+            <div className="flex-1 bg-gradient-to-br from-gray-100 to-gray-200 m-6 rounded-xl flex items-center justify-center relative overflow-hidden transition-all duration-300">
               {activeCanvasTab === '3d' ? (
                 <>
                   {/* Modelo 3D Real da Camiseta */}
